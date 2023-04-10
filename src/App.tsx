@@ -7,7 +7,6 @@ import { api } from './api';
 
 function App() {
   const [posts, setPosts] = useState<Posts[]>([]);
-  /* Fazendo requisição */
   useEffect(() => {
     loadPosts()
   }, [])
