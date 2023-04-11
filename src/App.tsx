@@ -15,7 +15,9 @@ const reducer = (state:reducerState , action:reducerAction ) => {
         return{...state, count: state.count + 1};
     break;
     case 'DEL':
+      if( state.count > 0) {
         return{...state, count: state.count -1};
+      }
     break;
     case 'RESET':
         return initialState;
@@ -33,7 +35,11 @@ const App = () => {
   return (
     <>
       <div className="p-5">
-        Olá
+        <h1>Contagem: {state.count}</h1>
+        <hr className='m-1' />
+        <button className="p-3 m-3" onClick={()=>{dispatch({type: 'ADD'})}} >Adicionar </button>
+        <button className="p-3 m-3" onClick={()=>{dispatch({type: 'DEL'})}} >Remover </button>
+        <button className="p-3 m-3" onClick={()=>{dispatch({type: 'RESET'})}} >Reset</button>
       </div>
     </>
   )
