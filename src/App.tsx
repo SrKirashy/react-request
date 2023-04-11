@@ -1,50 +1,42 @@
-import { useState, useEffect } from "react";
-import { Posts } from './types/Post'
-import styles from './styles.module.css';
-import { PostForm } from "./componets/PostForm";
-import { PostItem } from "./componets/PostItem";
-import { api } from './api';
+import './index.css';
+import { useReducer } from 'react';
 
-function App() {
-  const [posts, setPosts] = useState<Posts[]>([]);
-  useEffect(() => {
-    loadPosts()
-  }, [])
+type reducerState = {
+  count: number;
+}
+type reducerAction = {
+  type: string;
+}
 
-  const loadPosts = async () => {
-    let json = await api.getAllPosts();
-    setPosts(json);
+const initialState ={ count: 0};
+const reducer = (state:reducerState , action:reducerAction ) => {
+  switch (action.type){
+    case 'ADD':
+        return{...state, count: state.count + 1};
+    break;
+    case 'DEL':
+        return{...state, count: state.count -1};
+    break;
+    case 'RESET':
+        return initialState;
+    break;
   }
+  return state;
+};
 
-  const handleAddPost = async (title: string, body: string) => {
-    let json = await api.addNewPost(title,body, 875);
 
-    if (json.id) {
-      alert('Comentário enviado com sucesso!');
-      console.log(json);
-    } else {
-      alert('Ocorrou um erro.');
-    }
-  }
+const App = () => {
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
 
   return (
     <>
-      <div>
-        <div className={styles.container}>
-
-          <PostForm onAdd={handleAddPost} />
-
-          <div className={styles.boxcontainer}>
-
-            {posts.map((item, index) => (
-              <PostItem key={index} data={item} />
-            ))}
-
-          </div>
-        </div>
+      <div className="p-5">
+        Olá
       </div>
     </>
   )
 }
 
-export default App
+export default App;
